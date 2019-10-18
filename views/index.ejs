@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
+    <style type="text/css">
+        body{
+            background-image: url('https://cdn.pixabay.com/photo/2015/07/02/10/13/sky-828648_960_720.jpg');
+
+        }
+        .container{
+            margin-top:20px;
+
+        }
+        .input-group{
+            width: 100%;
+        }
+        #desc{
+            float:left; 
+            width: 16%; 
+            font-weight: bold
+        }
+        .description{
+            width:100%; 
+            float: left;
+            margin-bottom:10px;
+        }
+        .custab{
+            border: 1px solid #ccc;
+            background: white;
+            padding: 5px;
+            margin: 10px 0;
+            box-shadow: 3px 3px 2px #ccc;
+            transition: 0.5s;
+        }
+        .custab:hover{
+            box-shadow: 3px 3px 0px transparent;
+            transition: 0.5s;
+        }
+        .addbtn{
+            margin-bottom: 10px;
+        }
+        .uploadBtn{
+            margin-top:15px; 
+        }
+        #browsebutton{
+            background: white;
+        }
+        #browsebutton:hover{
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Nature's Palette</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+        <h2 style="text-align: center; color:white;">Uploaded Files</h2>
+       <div class="row col-md-12 custyle">
+        <% 
+            if(typeof messages!="undefined")
+            {
+        %>
+            <h2 style="color:#337ab7; font-weight:bold;"><%- messages() %></h2>
+        <% 
+            }
+        %>
+        <table class="table table-striped custab">
+        <thead>
+        <a href="#" class="addbtn btn btn-primary pull-right" data-toggle="modal" data-target="#NewFile"><b>+</b> Add new file</a>
+            <tr>
+                <th>ID</th>
+                <th>File Name</th>
+                <th>Description</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+                <% 
+                    var count=1;
+                    for(var i = 0; i < fileList.length; i++)
+                    {
+
+                %>
+                <tr>
+                    <td><%= count; %></td>
+                    <td style="color:#337ab7"><%= fileList[i].file_name; %></td>
+                    <td><%= fileList[i].description; %></td>
+                    <td class="text-center"><a class='btn btn-info' href="/download/<%= fileList[i].file_name; %>"><span class="glyphicon glyphicon-edit"></span> Download</a> </td>
+                </tr>
+                <%
+                    count++;
+                    }
+                %>
+        </table>
+        </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="NewFile" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">File Upload</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline center-block well" action="/" method="POST" enctype="multipart/form-data">
+                    <p id="desc">Description: </p>
+                    <input type="text" name="description" class="description" required="">
+                    <p id="desc">File: </p>
+                    <div class="input-group">
+                        <label id="browsebutton" class="btn btn-default input-group-addon" for="file">
+                            <input id="file" type="file" name="file" style="display:none;" required="">
+                            Browse...
+                        </label>
+                        <input id="label" type="text" class="form-control" readonly="">
+                        <br>
+                    </div>
+                    <button type="submit" class="uploadBtn btn btn-primary pull-right">Upload</button>
+                    <span class="help-block">
+                        <small id="fileHelp" class="form-text text-muted">Upload demo files</small>
+                    </span>
+                </form>
+            </div> <!--modal-body close-->
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div> -->
+          </div>
+        </div>
+      </div> <!-- Modal close -->
+
+    </div> <!--container close -->
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#browsebutton :file').change(function(e){
+            var fileName = e.target.files[0].name;
+            $("#label").attr('placeholder',fileName)
+        });
+    });
+</script>
+</html>
