@@ -46,6 +46,6 @@ app.use('/', index);
 // app.use('/logout', logout);
 
 // SERVER
-app.listen(1338, function(){
-	console.log('server started on 127.0.0.1:1338...');
+app.listen(3336,function(){
+	console.log('server started on port 3336...');
 });

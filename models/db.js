@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'natures_palette'
+  host: 'remotemysql.com',
+  user: 'p5IjIhnhwq',
+  password: 'rZWMwhVbjD',
+  database: 'p5IjIhnhwq'
 });
 connection.connect(function(err) {
   if (err) {
