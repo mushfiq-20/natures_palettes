@@ -47,5 +47,5 @@ app.use('/', index);
 
 // SERVER
 app.listen(3336,function(){
-	console.log('server started on port 3336...');
+	console.log('server started on port: 3336...');
 });
