@@ -7,6 +7,7 @@ var fileUpload = require('express-fileupload');
 var app = express();
 
 var index = require('./controllers/index');
+var upload = require('./controllers/upload');
 // var login = require('./controllers/login');
 // var register = require('./controllers/register');
 // var userhome = require('./controllers/users/home');
@@ -39,6 +40,7 @@ app.use(fileUpload());
 
 
 app.use('/', index);
+app.use('/upload', upload);
 // app.use('/login', login);
 // app.use('/register', register);
 // app.use('/users/home', userhome);

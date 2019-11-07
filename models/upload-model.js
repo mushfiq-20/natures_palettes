@@ -9,6 +9,14 @@ module.exports = {
 			callback(flag);
 		});
 	},
+	insertAll: function(file, callback){
+		var sql = "INSERT INTO submission VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		var type='File';
+
+		db.execute(sql, [file.f_name, file.l_name, file.email, file.institution, file.data_type, file.data_from, file.published, file.reference, file.doi, file.embargo_date, file.metadata, file.rawdata, file.metadata_values ], function(flag){
+			callback(flag);
+		});
+	},
 	getAll: function(callback){
 		var sql = "SELECT * FROM files";
 		db.getResult(sql, null, function(result){
