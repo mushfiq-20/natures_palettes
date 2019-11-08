@@ -25,22 +25,28 @@ router.get('/validateUpload', function(req, res){
 	  res.render('validateUpload');
 });
 
+router.get('/validateUpload/:failed', function(req, res){
+
+	var failed = req.params.failed;
+   res.render("validateUpload", {failedVar: failed});
+});
+
 
 
 
 router.post('/', function(req, res) {
-	console.log(req.body.f_name);
-	console.log(req.body.l_name);
-	console.log(req.body.email);
-	console.log(req.body.institution);
-	console.log(req.body.data_type);
-	console.log(req.body.data_from);
-	console.log(req.body.published);
-	console.log(req.body.reference);
-	console.log(req.body.doi);
-	console.log(req.body.embargo);
-	console.log(req.files.metadata.name);
-	console.log(req.files.rawdata.name);
+	// console.log(req.body.f_name);
+	// console.log(req.body.l_name);
+	// console.log(req.body.email);
+	// console.log(req.body.institution);
+	// console.log(req.body.data_type);
+	// console.log(req.body.data_from);
+	// console.log(req.body.published);
+	// console.log(req.body.reference);
+	// console.log(req.body.doi);
+	// console.log(req.body.embargo);
+	// console.log(req.files.metadata.name);
+	// console.log(req.files.rawdata.name);
 	
 	//res.redirect('/upload');
 	
@@ -101,7 +107,7 @@ router.post('/', function(req, res) {
 		  	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
 						fs.unlinkSync(filePath);
 
-		  	 			res.redirect('/upload/validateUpload');
+		  	 			res.redirect('/upload/validateUpload/true');
 		  	 			
 		  	 		}
 		  	 	else
@@ -146,43 +152,61 @@ router.post('/', function(req, res) {
 					|| results[i]['ProbeAngle2']=='' || results[i]['Replicate']=='' )
 				{
 					req.flash("info", "There are empty values(s) in mandatory fields in row number: "+c);
-					break;
-					var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
-	  	 			fs.unlinkSync(filePath); 
-	  	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
-					fs.unlinkSync(filePath);
-
-					res.redirect('/upload/validateUpload');
-				}
-
-				fileNamesInMeta.push(results[i]['FileName']);
-			}
-			console.log(fileNamesInMeta);
-
-			var checker = (arr, target) => target.every(v => arr.includes(v));
-			if(checker(rawFiles, fileNamesInMeta)==false)
-			{
-				req.flash("info", "One or more of the FileName(s) mentioned in metaData file is missing from RawData files.");
-				
-				var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
-  	 			fs.unlinkSync(filePath); 
-  	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
-				fs.unlinkSync(filePath);
-				
-				res.redirect('/upload/validateUpload');
-				//console.log("One or more of the FileName(s) mentioned in metaData file is missing from RawData files.");
-			}
-			else{
-				if(checker(fileNamesInMeta, rawFiles)==false)
-				{
-					req.flash("info", "One or more of the rawData fileName(s) is not mentioned in metaData FileName(s)");
 					
 					var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
 	  	 			fs.unlinkSync(filePath); 
 	  	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
 					fs.unlinkSync(filePath);
 
-					res.redirect('/upload/validateUpload');
+					res.redirect('/upload/validateUpload/true',);
+					return;
+					break;
+
+				}
+				else{
+					fileNamesInMeta.push(results[i]['FileName']);
+				}
+			}
+			console.log(fileNamesInMeta);
+			function checker(arr, target){
+				var ret;
+				for (var i = 0; i < target.length; i++) {
+					if(arr.includes(target[i]))
+					{
+						ret='true';
+					}
+					else{
+						ret=i+2;
+						break; 
+					}
+				}
+
+				return ret;
+			}
+
+			//var checker = (arr, target) => target.every(v => arr.includes(v));
+			if(checker(rawFiles, fileNamesInMeta)!='true')
+			{
+				req.flash("info", "One or more of the FileName(s) mentioned in metaData file (row number: "+checker(rawFiles, fileNamesInMeta)+") is missing from RawData files.");
+				var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
+  	 			fs.unlinkSync(filePath); 
+  	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
+				fs.unlinkSync(filePath);
+				
+				res.redirect('/upload/validateUpload/true');
+				//console.log("One or more of the FileName(s) mentioned in metaData file is missing from RawData files.");
+			}
+			else{
+				if(checker(fileNamesInMeta, rawFiles)!='true')
+				{
+					req.flash("info", "One or more of the rawData fileName(s) (file number: "+(checker(fileNamesInMeta, rawFiles)-1).toString()+") is not mentioned in metaData FileName(s)");
+					
+					var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
+	  	 			fs.unlinkSync(filePath); 
+	  	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
+					fs.unlinkSync(filePath);
+
+					res.redirect('/upload/validateUpload/true');
 				}
 
 				else{
@@ -221,7 +245,7 @@ router.post('/', function(req, res) {
 		uploadModel.insertAll(file, function(valid){
 			if(valid)
 			{
-				req.flash("info", "File Uploaded");
+				req.flash("info", "File Uploaded and inserted into database!");
 				res.redirect('/upload/validateUpload')
 			}
 			else

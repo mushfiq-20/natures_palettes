@@ -4,13 +4,15 @@ var uploadModel = require.main.require('./models/upload-model');
 
 
 router.get('/', function(req, res){
-	uploadModel.getAll(function(files){
-      var data = {
-      fileList: files
-	  };
+	// uploadModel.getAll(function(files){
+ //      var data = {
+ //      fileList: files
+	//   };
 
-	    res.render('index',data);
-	  });
+	//     res.render('index',data);
+	//   });
+
+	res.redirect('upload');
 });
 
 router.get('/download/:file', function(req, res){
