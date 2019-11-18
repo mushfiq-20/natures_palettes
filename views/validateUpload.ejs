@@ -18,9 +18,17 @@
 		#messages ul{
 			padding: 0px;
 		}
-		#messages ul li{
+		.info  li{
 			list-style-type: none;
 			color:#337ab7;
+			font-weight: bold;
+		}
+		.list li{
+			margin-left: 15px;
+			text-align: left;
+    		list-style: initial;
+		}
+		.list li span{
 			font-weight: bold;
 		}
 	</style>
@@ -28,7 +36,16 @@
 <body>
 
 	<div class="full-container upload-container" style="text-align: center">
-		<h1 class="topbar col-lg-12 no-padding">Submission Confirmation</h1>
+		<div class="topbar col-lg-12 no-padding">Submission Confirmation
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="/upload">Upload</a></li>
+					<li><a href="/search">Search</a></li>
+				</ul>
+			</nav>
+		</div>
 
 		<% 
             if(typeof messages!="undefined")
@@ -56,7 +73,8 @@
 <script type="text/javascript">
 	
 	function goBack(){
-		document.cookie = "Retry=True";
+		localStorage.Retry = "True";
+		//document.cookie = "Retry=True";
 		window.history.back();
 	}
 </script>

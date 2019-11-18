@@ -90,16 +90,61 @@ router.post('/', function(req, res) {
 	  	.pipe(csv())
 	  	.on('data', (data) => results.push(data))
 	  	.on('end', () => {
-
 		  	for(var k in results[0]) keys.push(k);
-		  		if(keys.indexOf('FileName')  < 0  || keys.indexOf('UniqueID')  < 0 
+	  			if(keys.indexOf('FileName')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>FileName</span> is missing.");
+		  	 	}
+		  	 	if(req.body.data_from=='field' && keys.indexOf('UniqueID')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>UniqueID</span> is missing.");
+		  	 	}
+		  	 	if(req.body.data_from=='museum' && keys.indexOf('institutionCode')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>institutionCode</span> is missing.");
+		  	 	}
+		  	 	if(req.body.data_from=='museum' && keys.indexOf('catalogueNumber')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>catalogueNumber</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('genus')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>genus</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('Patch')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>Patch</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('LightAngle1')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>LightAngle1</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('LightAngle2')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>LightAngle2</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('ProbeAngle1')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>ProbeAngle1</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('ProbeAngle2')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>ProbeAngle2</span> is missing.");
+		  	 	}
+		  	 	if(keys.indexOf('Replicate')  < 0)
+		  	 	{
+		  	 		req.flash("list", "<span>Replicate</span> is missing.");
+		  	 	}
+
+		  		if(keys.indexOf('FileName')  < 0  || (req.body.data_from=='field' && keys.indexOf('UniqueID') < 0) 
+		  			|| (req.body.data_from=='museum' && keys.indexOf('institutionCode') < 0) 
+		  			|| (req.body.data_from=='museum' && keys.indexOf('catalogueNumber') <0 )
 		  	 		|| keys.indexOf('genus')  < 0 || keys.indexOf('specificEpithet')  < 0 
 		  	 		|| keys.indexOf('Patch')  < 0 || keys.indexOf('LightAngle1')  < 0 || 
 		  	 		keys.indexOf('LightAngle2')  < 0 || keys.indexOf('ProbeAngle1')  < 0 
 		  	 		|| keys.indexOf('ProbeAngle2')  < 0 || keys.indexOf('Replicate')  < 0)
 		  			{
-
-		  	 			req.flash("info", "One or more of the mandatory fields among 'FileName, UniqueID, genus, specificEpithet,Patch, LightAngle1, LightAngle2, ProbeAngle1, ProbeAngle2 and Replicate' are missing. Make sure you have all of these fields in your metadata file. Remember that the fields are case sensitive.");
+		  	 			req.flash("info", "The above mandatory fields for "+req.body.data_from+" type metadata are missing. Make sure you have all of these fields in your metadata file. Remember that the fields are case sensitive.");
 		  	 			//callback(null, rawFiles, results);
 		  	 			//res.redirect('/upload/validateUpload');
 		  	 			var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
@@ -145,7 +190,9 @@ router.post('/', function(req, res) {
 
 			for (var i = 0; i < results.length; i++) {
 				c++;
-				if(results[i]['FileName']=='' || results[i]['UniqueID']==''
+				if(results[i]['FileName']=='' || (req.body.data_from=='field' && results[i]['UniqueID']=='') 
+					|| (req.body.data_from=='museum' && results[i]['institutionCode']=='') 
+					|| (req.body.data_from=='museum' && results[i]['catalogueNumber']=='') 
 					|| results[i]['genus']=='' || results[i]['specificEpithet']==''
 					|| results[i]['Patch']=='' || results[i]['LightAngle1']==''
 					|| results[i]['LightAngle2']=='' || results[i]['ProbeAngle1']==''
@@ -169,14 +216,15 @@ router.post('/', function(req, res) {
 			}
 			console.log(fileNamesInMeta);
 			function checker(arr, target){
-				var ret;
+				var ret=0;
 				for (var i = 0; i < target.length; i++) {
 					if(arr.includes(target[i]))
 					{
 						ret='true';
 					}
 					else{
-						ret=i+2;
+						ret=target[i];
+						console.log(target[i]);
 						break; 
 					}
 				}
@@ -185,9 +233,9 @@ router.post('/', function(req, res) {
 			}
 
 			//var checker = (arr, target) => target.every(v => arr.includes(v));
-			if(checker(rawFiles, fileNamesInMeta)!='true')
+			if(checker(fileNamesInMeta, rawFiles)!='true')
 			{
-				req.flash("info", "One or more of the FileName(s) mentioned in metaData file (row number: "+checker(rawFiles, fileNamesInMeta)+") is missing from RawData files.");
+				req.flash("info", "File ("+checker(fileNamesInMeta, rawFiles)+") from rawdata is not mentioned in the metadata file.");
 				var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
   	 			fs.unlinkSync(filePath); 
   	 			filePath = './public/upload/rawdata/'+uploadedRawdataFile.name; 
@@ -197,9 +245,9 @@ router.post('/', function(req, res) {
 				//console.log("One or more of the FileName(s) mentioned in metaData file is missing from RawData files.");
 			}
 			else{
-				if(checker(fileNamesInMeta, rawFiles)!='true')
+				if(checker(rawFiles, fileNamesInMeta)!='true')
 				{
-					req.flash("info", "One or more of the rawData fileName(s) (file number: "+(checker(fileNamesInMeta, rawFiles)-1).toString()+") is not mentioned in metaData FileName(s)");
+					req.flash("info", "File ("+checker(rawFiles, fileNamesInMeta)+") mentioned in metadata but is missing from rawdata");
 					
 					var filePath = './public/upload/metadata/'+uploadedMetadataFile.name;
 	  	 			fs.unlinkSync(filePath); 
@@ -224,7 +272,15 @@ router.post('/', function(req, res) {
 
   	function insertToDb(results) 
 	{			
-	var metadata_val=JSON.stringify(results);	
+
+	var json = JSON.stringify(results);
+	var newJson = json.replace(/"([\w]+)":/g, function($0, $1) {
+	  return ('"' + $1.toLowerCase() + '":');
+	});
+	var newObj = JSON.parse(newJson);
+	console.debug(newObj);
+
+	var metadata_val=JSON.stringify(newObj);	
 
 		var file = {
 			f_name: req.body.f_name,

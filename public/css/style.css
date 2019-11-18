@@ -39,6 +39,40 @@
 }
 
 
+.topbar nav 
+{ 
+	position: absolute; 
+	right: 0; 
+	top: 0; 
+	width: 400px; 
+	padding-top: 23px; 
+	padding-bottom: 10px; 
+}
+
+
+.topbar nav ul 
+{ 
+	float:right; 
+	margin-right: 35px; 
+	list-style: none; 
+	padding-left: 0; 
+}
+
+
+.topbar nav ul li 
+{ 
+	display: inline; 
+}
+
+
+.topbar nav ul li a 
+{ 
+	font-size: 17px; 
+	margin-left: 25px; 
+	color: #fff; 
+}
+
+
 .upload-container .topbar
 {
 	width: 107% !important;

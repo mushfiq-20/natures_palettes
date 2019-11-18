@@ -18,7 +18,7 @@ module.exports = {
 		});
 	},
 	getAll: function(callback){
-		var sql = "SELECT * FROM files";
+		var sql = "SELECT * FROM submission";
 		db.getResult(sql, null, function(result){
 		
 			callback(result);

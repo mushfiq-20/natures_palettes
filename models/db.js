@@ -24,6 +24,7 @@ var connection = mysql.createConnection({
 function handleDisconnect() {
 	connection.connect(function(err) {
 	  if (err) {
+        connection.end();
 	    console.error('error connecting: ' + err.stack);
 	    setTimeout(handleDisconnect, 2000);
 	    return;

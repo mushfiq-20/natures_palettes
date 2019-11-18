@@ -16,7 +16,16 @@
 <body>
 
 	<div class="full-container upload-container">
-		<h1 class="topbar col-lg-12 no-padding">Submission Steps</h1>
+		<div class="topbar col-lg-12 no-padding">Submission Steps
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="/upload">Upload</a></li>
+					<li><a href="/search">Search</a></li>
+				</ul>
+			</nav>
+		</div>
 		<div class="submission-instructions">
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
@@ -110,9 +119,9 @@
 							<h3 class="label col-lg-12 no-padding">Type of Data <span class="required">*</span></h3>
 							<select name="data_type" required>
 								<option value="">Choose from list</option>
-								<option value="transmittance">Transmittance</option>
+								<option value="transmittance" disabled="disabled">Transmittance</option>
 								<option value="reflectance">Reflectance</option>
-								<option value="irradiance">Irradiance</option>
+								<option value="irradiance" disabled="disabled">Irradiance</option>
 							</select>
 							<span class="foot-note">Choose data type from the list - Transmittance, Reflectance, Irradiance</span>
 						</div>
@@ -185,20 +194,17 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-	    function getCookie(name) {
-		  var value = "; " + document.cookie;
-		  var parts = value.split("; " + name + "=");
-		  if (parts.length == 2) return parts.pop().split(";").shift();
-		}
-		console.log(document.cookie);
 
-		if(getCookie('Retry')=='True')
+		if(localStorage.Retry!=undefined && localStorage.Retry=='True')
 		{
-			console.log('c');
 			$('#agreed').trigger('click');
 			$('.start-upload-steps').trigger('click');
 			$('#go-next').trigger('click');
-			document.cookie = "Retry=False";
+			localStorage.removeItem("Retry");
 		}
+		else{
+
+		}
+	    
 	});
 </script>

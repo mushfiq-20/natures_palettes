@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nature's Palette: Search data</title>
+	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="full-container upload-container">
+		<div class="topbar col-lg-12 no-padding">Search
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="/upload">Upload</a></li>
+					<li><a href="/search">Search</a></li>
+				</ul>
+			</nav>
+		</div>
+		<form id="upload-form" class="basic-form col-lg-12" method="post" action="" enctype="multipart/form-data">
+				<div class="basic-information" style="margin-top:80px">
+					<div class="row form-full-row">
+						<div class="clearfix"></div>
+						<div class="form-field col-lg-4 no-padding-left">
+							<input type="text" name="institutionCode" placeholder="institutionCode">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="collectionCode" placeholder="collectionCode">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="catalogueNumber" placeholder="catalogueNumber">
+						</div>
+					</div> <!-- /row -->
+
+
+					<div class="row form-full-row">
+						<div class="form-field col-lg-4 no-padding-left">
+							<input type="text" name="Class" placeholder="Class">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="Order" placeholder="Order">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="Family" placeholder="Family">
+						</div>
+					</div> <!-- /row -->
+
+					<div class="row form-full-row">
+						<div class="form-field col-lg-4 no-padding-left">
+							<input type="text" name="genus" placeholder="genus">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="specificEpithet" placeholder="specificEpithet">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="infraspecificEpithet" placeholder="infraspecificEpithet">
+						</div>
+					</div> <!-- /row -->
+
+					<div class="row form-full-row">
+						<div class="form-field col-lg-4 no-padding-left">
+							<input type="text" name="Sex" placeholder="Sex">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="lifeStage" placeholder="lifeStage">
+						</div>
+
+						<div class="form-field col-lg-4">
+							<input type="text" name="Country" placeholder="Country">
+						</div>
+					</div> <!-- /row -->
+
+					<div class="row form-full-row">
+						<div class="form-field col-lg-4 no-padding-left">
+							<input type="text" name="Patch" placeholder="Patch">
+						</div>
+					</div> <!-- /row -->
+
+					<div class="row form-full-row">
+						<button type="submit" id="submit-form" name="submit" class="btn btn-primary submit">Search</button>
+					</div>
+				</div> <!-- /basic-information -->
+
+			</form>
+
+			<% 
+		        if(typeof arr!="undefined")
+		        {
+		    %>
+				<div class="table" style="padding-bottom: 20px">
+					<h3 style="text-align: center">Results</h3>
+					<table class="table table-striped custab" >
+					    <thead style="background-color: #a5a5a5">
+					        <tr>
+					            <th>FileName</th>
+					            <th>genus</th>
+					            <th>specificEpithet</th>
+					            <th>infraspecificEpithet</th>
+					            <th>Sex</th>
+					            <th>lifeStage</th>
+					            <th>Patch</th>
+					            <!-- <th class="text-center">Action</th> -->
+					        </tr>
+					    </thead>
+			            
+					    <% 
+		                    var count=1;
+		                    for(var i = 0; i < arr.length; i++)
+		                    {
+		                    	count++;
+		                %>
+		                <tr>
+			                <td><%= arr[i].filename; %></td>
+			                <td><%= arr[i].genus; %></td>
+			                <td><%= arr[i].specificepithet; %></td>
+			                <td><%= arr[i].infraspecificepithet; %></td>
+			                <td><%= arr[i].sex; %></td>
+			                <td><%= arr[i].lifestage; %></td>
+			                <td><%= arr[i].patch; %></td>
+			            </tr>
+		                <%
+		            		}
+		            		if(count==1)
+		            		{
+		            			%>
+			                <tr>
+				                <td>No Results Found</td>
+				                <td></td>
+				                <td></td>
+				                <td></td>
+				                <td></td>
+				                <td></td>
+				                <td></td>
+				            </tr>
+			                <%
+		            		}
+		                %>
+
+			            
+				    </table>
+				</div>
+
+			<%
+				}
+			%>
+
+	<script src="/js/script.js"></script>
+</body>
+</html>
