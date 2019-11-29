@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var uploadModel = require.main.require('./models/upload-model');
-var csv = require('csv-parser')
+var csv = require('csv-parser');
 var JSZip = require("jszip");
-var fs = require('fs')
+var fs = require('fs');
+var mv = require('mv');
+var glob = require("glob")
+var fs_extra = require('fs-extra');
+var R = require("r-script");
 
 
 router.get('/', function(req, res){
@@ -16,10 +20,18 @@ router.get('/', function(req, res){
 	  });
 });
 
-// router.get('/download/:file', function(req, res){
-//   var file = `./public/upload/`+ req.params.file;
-//   res.download(file);
-// });
+router.get('/template/:file', function(req, res){
+  var file = `./public/template/`+ req.params.file;
+  res.download(file, function(err){
+	  if(err) {
+	    // Check if headers have been sent
+	    if(res.headersSent) {
+	    } else {
+	      return res.sendStatus(SOME_ERR); // 404, maybe 500 depending on err
+	    }
+	  }
+	});
+});
 
 router.get('/validateUpload', function(req, res){
 	  res.render('validateUpload');
@@ -35,22 +47,8 @@ router.get('/validateUpload/:failed', function(req, res){
 
 
 router.post('/', function(req, res) {
-	// console.log(req.body.f_name);
-	// console.log(req.body.l_name);
-	// console.log(req.body.email);
-	// console.log(req.body.institution);
-	// console.log(req.body.data_type);
-	// console.log(req.body.data_from);
-	// console.log(req.body.published);
-	// console.log(req.body.reference);
-	// console.log(req.body.doi);
-	// console.log(req.body.embargo);
-	// console.log(req.files.metadata.name);
-	// console.log(req.files.rawdata.name);
-	
-	//res.redirect('/upload');
-	
-	
+  uploadModel.getLastId(function(lastId){
+
 	uploadedMetadataFile=req.files.metadata; // the uploaded file object
 	uploadedRawdataFile=req.files.rawdata; // the uploaded file object
 
@@ -73,7 +71,58 @@ router.post('/', function(req, res) {
 					else{
 					  //req.flash("info", "File uploaded");
 					  //insertToDb();  
-					  validate(uploadedMetadataFile,uploadedRawdataFile);  	
+					  var extract = require('extract-zip')
+					  if(lastId[0]==undefined)
+					  {
+					  	folder="submission-"+(parseInt(1));
+					  }
+					  else{
+					  	folder="submission-"+(parseInt(lastId[0].id)+1);
+					  }
+
+					  var src=process.cwd()+'/public/upload/rawdata/'+folder;
+						extract('./public/upload/rawdata/'+uploadedRawdataFile.name, {dir: src}, function (err) {
+						 // extraction is complete. make sure to handle the err
+						 if(err)
+						 {
+						 	console.log(err);
+						 }
+
+						var getDirectories = function (src, callback) {
+						  glob(src + '/*/**', callback);
+						};
+						getDirectories(src, function (err, res) {
+						  if (err) {
+						    console.log('Error', err);
+						  } else {
+
+						    for (var i = 0; i < res.length; i++) {
+						    	if(res[i].includes('Master.Transmission'))
+							    {
+							    	var b=res[i].lastIndexOf("/");
+									var path= res[i].substring(0, b+1);
+									//console.log(path);
+									folder(path, src);
+									break;
+							    }
+						    }
+						    
+						  }
+						});
+
+						function folder(path,src){
+							mv(path, src+'-rd', {mkdirp: true}, function(err) {
+							  // done. it first created all the necessary directories, and then
+							  // tried fs.rename, then falls back to using ncp to copy the dir
+							  // to dest and then rimraf to remove the source dir
+							  fs_extra.removeSync(src); 
+
+							});
+						}
+						
+						 validate(uploadedMetadataFile,uploadedRawdataFile);  	
+						})
+					  //validate(uploadedMetadataFile,uploadedRawdataFile);  	
 					}    
 				}); 	
 			}    
@@ -258,7 +307,17 @@ router.post('/', function(req, res) {
 				}
 
 				else{
-					req.flash("info", "Metadata file is valid");
+					//req.flash("success-info", "Metadata file is valid");
+
+				
+					//console.log(result.result);
+					src=process.cwd()+'/public/upload/rawdata/submission-10-rd';
+					var out = R("Script.R")
+					  .data(src)
+					  .callSync();
+					  
+					console.log(out);
+						
 					insertToDb(results);
 					//res.redirect('/upload/validateUpload');
 				}
@@ -272,6 +331,73 @@ router.post('/', function(req, res) {
 
   	function insertToDb(results) 
 	{			
+	  if(lastId[0]==undefined)
+	  {
+	  	folder="submission-"+(parseInt(1));
+	  }
+	  else{
+	  	folder="submission-"+(parseInt(lastId[0].id)+1);
+	  }
+
+	var src=process.cwd()+'/public/upload/rawdata/'+folder+'-rd';
+	var out = R("Script.R")
+	  .data(src)
+	  .callSync();
+	if(out > -0.02)
+	{
+		var nodemailer = require('nodemailer');
+
+		var transporter = nodemailer.createTransport({
+		  service: 'gmail',
+		  auth: {
+		    user: 'naturespalette007@gmail.com',
+		    pass: 'qwertyp01'
+		  }
+		});
+
+		var mailOptions = {
+		  from: 'naturespalette0070@gmail.com',
+		  to: req.body.email,
+		  subject: "Nature's Palette submission info",
+		  html: "<h1>Nature's Palette</h1><p>Your rawdata files are valid.</p><hp>MIN Spectra value of your files is: "+out+" </p>"
+		};
+
+		transporter.sendMail(mailOptions, function(error, info){
+		  if (error) {
+		    console.log(error);
+		  } else {
+		    console.log('Email sent: ' + info.response);
+		  }
+		});
+	}
+	else
+	{
+		var nodemailer = require('nodemailer');
+
+		var transporter = nodemailer.createTransport({
+		  service: 'gmail',
+		  auth: {
+		    user: 'naturespalette007@gmail.com',
+		    pass: 'qwertyp01'
+		  }
+		});
+
+		var mailOptions = {
+		  from: 'naturespalette0070@gmail.com',
+		  to: req.body.email,
+		  subject: "Nature's Palette submission info",
+		  html: "<h1>Nature's Palette</h1><p>Your rawdata files are not valid.</p><hp>MIN Spectra value of your files is: "+out+" </p>"
+		};
+
+		transporter.sendMail(mailOptions, function(error, info){
+		  if (error) {
+		    console.log(error);
+		  } else {
+		    console.log('Email sent: ' + info.response);
+		  }
+		});
+	}
+
 
 	var json = JSON.stringify(results);
 	var newJson = json.replace(/"([\w]+)":/g, function($0, $1) {
@@ -301,7 +427,8 @@ router.post('/', function(req, res) {
 		uploadModel.insertAll(file, function(valid){
 			if(valid)
 			{
-				req.flash("info", "File Uploaded and inserted into database!");
+				req.flash("success-info", "Submission has passed 1st check !!");
+				req.flash("success-info", "You will be advised if we find any corrupted files via email.");
 				res.redirect('/upload/validateUpload')
 			}
 			else
@@ -312,6 +439,8 @@ router.post('/', function(req, res) {
 			
 		});
 	}
+
+ });	
 });
 
 

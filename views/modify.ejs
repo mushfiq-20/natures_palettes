@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nature's Palette: Modify</title>
+	<meta charset="utf-8">
+
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- jQuery and jQuery UI -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Slider -->
+	<script src="/js/cycle2.js"></script>
+
+	<!-- Custom Scripts -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	<div id="page-wrapper" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+		<div id="navigation-bar" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div id="logo" class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+				<h1><a href="/">Nature's Palette</a></h1>
+			</div> <!-- /logo -->
+
+
+			<div id="navigation-menu" class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="/upload">Upload</a></li>
+					<li><a href="/search">Search</a></li>
+					<li><a href="/modify">Modify</a></li>
+				</ul>
+			</div> <!-- /logo -->
+		</div> <!-- /navigation-bar -->	
+
+
+		<div id="search-data" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+			<div id="modify-data">
+				<h1>Update Submission</h1>
+				<form id="upload-form" class="basic-form col-lg-8 col-md-8 col-sm-8 col-xs-12" method="post" action="" enctype="multipart/form-data">
+					<div id="modification-instruction">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						</p>
+
+						
+						<div class="modification-action col-lg-12 no-padding">
+							<p><strong>Please choose the action you want to perform:</strong></p>
+							<div>
+								<button type="button" class="btn btn-primary btn-sm action-to-modify selected" data-id="update-to-modify" id="update-to-modify">Update Info</button>
+								<button type="button" class="btn btn-default btn-sm action-to-modify" data-id="add-to-modify" id="add-to-modify">Add New Info</button>
+								<button type="button" class="btn btn-default btn-sm action-to-modify" data-id="remove-to-modify" id="remove-to-modify">Remove Info</button>
+							</div>
+						</div> <!-- /modification-action -->
+						<div class="clearfix"></div>
+					</div> <!-- /modification-instruction -->
+
+
+
+					<div class="upload-files no-padding">
+						<div class="form-field" id="old-files">
+							<h3 class="label col-lg-12 no-padding">Old Raw Files <span class="required">*</span></h3>
+							<button type="button" class="btn btn-primary trigger-input hidden">Upload</button>
+							<input type="file" id="upload-old-rawdata" name="old_rawdata" class="rawdata-input old_rawdata-input" required>
+							<input type="text" id="old_rawdata_empty" name="old_rawdata_empty" hidden="hidden">
+							<span class="upload-note"><em></em>Upload old raw files into a zip format</span>
+						</div>
+
+						<div class="form-field" id="new-files">
+							<h3 class="label col-lg-12 no-padding">New Raw Files <span class="required">*</span></h3>
+							<button type="button" class="btn btn-primary trigger-input hidden">Upload</button>
+							<input type="file" id="upload-new-rawdata" name="new_rawdata" class="rawdata-input new_rawdata-input" required>
+							<input type="text" id="new_rawdata_empty" name="new_rawdata_empty" hidden="hidden">
+							<span class="upload-note"><em></em>Upload new raw files into a zip format</span>
+						</div>
+
+						<div class="form-field" id="meta-files">
+							<h3 class="label col-lg-12 no-padding">Metadata File <span class="required">*</span></h3>
+							<button type="button" class="btn btn-primary trigger-input hidden">Upload</button>
+							<input type="file" id="upload-metadata" name="metadata" class="metadata-input" required>
+							<input type="text" id="metadata_empty" name="metadata_empty" hidden="hidden">
+							<span class="upload-note"><em></em>Upload metadata file in csv format</span>
+						</div>
+					</div> <!-- /upload-files -->
+
+
+					<div class="buttons-container">
+						<button type="submit" id="submit-form" name="submit" class="btn btn-primary submit">Submit</button>
+					</div>
+				</form>
+
+
+				<div id="submission-info" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+					<p>You are currently editing the following submission:</p>
+					<ul>
+						<li><b>Submission Id:</b> <%=rows[0].id%></li>
+						<li><b>Original Submission Time:</b> <%=rows[0].time%></li>
+						<li><b>Metadata filename:</b> <%=rows[0].metadata%></li>
+						<li><b>Rawdata filename:</b> <%=rows[0].rawdata%></li>
+					</ul>
+				</div> <!-- /submission-info -->
+			</div> <!-- /modify-data -->
+		</div>
+	</div>
+
+<script type="text/javascript">
+	$( document ).ready(function() {
+	    $('.old_rawdata-input').on("change", function(){ 
+	    	$('#old_rawdata_empty').val($('.old_rawdata-input').val());
+	    });
+	    $('.new_rawdata-input').on("change", function(){ 
+	    	$('#new_rawdata_empty').val($('.new_rawdata-input').val());
+	    });
+	    $('.metadata-input').on("change", function(){ 
+	    	$('#metadata_empty').val($('.metadata-input').val());
+	    });
+	});
+</script>
+</body>

@@ -1,80 +1,86 @@
+
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Nature's Palette: Upload data</title>
+	<title>Nature's Palette: Upload</title>
 	<meta charset="utf-8">
+
+	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<!-- jQuery and jQuery UI -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<style type="text/css">
-		#messages
-		{
-	    	margin-top: 60px;
-		}
-		#messages ul{
-			padding: 0px;
-		}
-		.info  li{
-			list-style-type: none;
-			color:#337ab7;
-			font-weight: bold;
-		}
-		.list li{
-			margin-left: 15px;
-			text-align: left;
-    		list-style: initial;
-		}
-		.list li span{
-			font-weight: bold;
-		}
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Slider -->
+	<script src="/js/cycle2.js"></script>
+
+	<!-- Custom Scripts -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="/js/script.js"></script>
+	<style>
+		#messages { margin-top: 60px; }
+		#messages ul { padding: 0px; }
+		.info  li { list-style-type: none; color: #337ab7; font-weight: bold; }
+		.list li { margin-left: 15px; text-align: left; list-style: initial; }
+		.list li span { font-weight: bold; }
 	</style>
 </head>
 <body>
 
-	<div class="full-container upload-container" style="text-align: center">
-		<div class="topbar col-lg-12 no-padding">Submission Confirmation
-			<nav>
+	<div id="page-wrapper" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+		<div id="navigation-bar" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div id="logo" class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+				<h1><a href="/">Nature's Palette</a></h1>
+			</div> <!-- /logo -->
+
+
+			<div id="navigation-menu" class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
 				<ul>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">About</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a href="/upload">Upload</a></li>
 					<li><a href="/search">Search</a></li>
+					<li><a href="/modify">Modify</a></li>
 				</ul>
-			</nav>
+			</div> <!-- /logo -->
+		</div> <!-- /navigation-bar -->
+
+
+	<div id="search-data" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+		<div id="validate-data" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+				<h1>Your Upload Status:</h1>
+				<% if(typeof messages!="undefined") { %>
+	            <h2><%- messages() %></h2>
+		        <% } %>
+	        	<%  if(typeof failedVar!="undefined" && failedVar === "true") { %>
+			    <p> Please fix your file contents and <a href="#" onclick="goBack();return false;">try again.</a></p>
+				<% } %>   	
+			</div> <!-- /validate-data -->
+		</div> 
+
+		<div style="text-align: center; font-size: 17px;">
+			<p style="float: left; width: 100%; text-align: center; margin-top: 30px;">Keep up the good work!</p>
+			<a href="/">Home</a> &nbsp; &nbsp;
+			<a href="/upload">Upload</a> &nbsp; &nbsp;
+			<a href="/search">Search</a> &nbsp; &nbsp;
+			<a href="/modify">Modify</a>
 		</div>
+	</div> <!-- /page-wrapper -->
+	
 
-		<% 
-            if(typeof messages!="undefined")
-            {
-        %>
-            <h2><%- messages() %></h2>
-        <% 
-            }
-        %>
-
-        <% 
-        	if(typeof failedVar!="undefined" && failedVar === "true") 
-        	{ 
-        %>
-		    <p> Please fix your file contents and <a href="#" onclick="goBack();return false;">try again.</a></p>
-		<% 
-			} 
-
-		%>   
-        
-
+	<script>	
+		function goBack(){
+			localStorage.Retry = "True";
+			//document.cookie = "Retry=True";
+			window.history.back();
+		}
+	</script>
 </body>
 </html>
-
-<script type="text/javascript">
-	
-	function goBack(){
-		localStorage.Retry = "True";
-		//document.cookie = "Retry=True";
-		window.history.back();
-	}
-</script>

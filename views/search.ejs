@@ -2,110 +2,178 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Nature's Palette: Search data</title>
+	<title>Nature's Palette: Search</title>
 	<meta charset="utf-8">
+
+	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<!-- jQuery and jQuery UI -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Slider -->
+	<script src="/js/cycle2.js"></script>
+
+	<!-- Custom Scripts -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="/js/script.js"></script>
 </head>
 <body>
-	<div class="full-container upload-container">
-		<div class="topbar col-lg-12 no-padding">Search
-			<nav>
+
+	<div id="page-wrapper" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+		<div id="navigation-bar" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div id="logo" class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+				<h1><a href="/">Nature's Palette</a></h1>
+			</div> <!-- /logo -->
+
+
+			<div id="navigation-menu" class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
 				<ul>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">About</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a href="/upload">Upload</a></li>
 					<li><a href="/search">Search</a></li>
+					<li><a href="/modify">Modify</a></li>
 				</ul>
-			</nav>
-		</div>
-		<form id="upload-form" class="basic-form col-lg-12" method="post" action="" enctype="multipart/form-data">
-				<div class="basic-information" style="margin-top:80px">
+			</div> <!-- /logo -->
+		</div> <!-- /navigation-bar -->
+
+		<%
+			if(typeof fields!="undefined")
+			{
+				var institutionCode=fields.institutionCode;
+				var collectionCode=fields.collectionCode;
+				var catalogueNumber=fields.catalogueNumber;
+				var Class=fields.Class;
+				var Order=fields.Order;
+				var Family=fields.Family;
+				var genus=fields.genus;
+				var specificEpithet=fields.specificEpithet;
+				var infraspecificEpithet=fields.infraspecificEpithet;
+				var Sex=fields.Sex;
+				var lifeStage=fields.lifeStage;
+				var Country=fields.Country;
+				var Patch=fields.Patch;
+				
+			}
+			else{
+				var institutionCode='';
+				var collectionCode='';
+				var catalogueNumber='';
+				var Class='';
+				var Order='';
+				var Family='';
+				var genus='';
+				var specificEpithet='';
+				var infraspecificEpithet='';
+				var Sex='';
+				var lifeStage='';
+				var Country='';
+				var Patch='';
+		}
+		%>
+
+
+		<div id="search-data" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+			<form id="search-form" class="search-form col-lg-12 col-md-12 col-sm-12 col-xs-12" method="post" action="" enctype="multipart/form-data">
+				<div class="search-information">
+					<h1>Search Our Database</h1>
+					<p class="tips">
+						Use boolean operator "OR" for including multiple values for the same parameters. Use operator "NOT" to exclude specific values from your search result. 
+						<br>(i.e: For country field: Canada OR United States OR South Africa, for institution code field: NOT amnh NOT fmnh )
+					</p>
+
 					<div class="row form-full-row">
 						<div class="clearfix"></div>
-						<div class="form-field col-lg-4 no-padding-left">
-							<input type="text" name="institutionCode" placeholder="institutionCode">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="institutionCode" value="<%= institutionCode; %>" placeholder="institutionCode">
 						</div>
 
-						<div class="form-field col-lg-4">
-							<input type="text" name="collectionCode" placeholder="collectionCode">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="collectionCode" value="<%= collectionCode; %>" placeholder="collectionCode">
 						</div>
 
-						<div class="form-field col-lg-4">
-							<input type="text" name="catalogueNumber" placeholder="catalogueNumber">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="catalogueNumber" value="<%= catalogueNumber; %>" placeholder="catalogueNumber">
 						</div>
 					</div> <!-- /row -->
 
 
 					<div class="row form-full-row">
-						<div class="form-field col-lg-4 no-padding-left">
-							<input type="text" name="Class" placeholder="Class">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="Class" value="<%= Class; %>" placeholder="Class">
 						</div>
 
-						<div class="form-field col-lg-4">
-							<input type="text" name="Order" placeholder="Order">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="Order" value="<%= Order; %>" placeholder="Order">
 						</div>
 
-						<div class="form-field col-lg-4">
-							<input type="text" name="Family" placeholder="Family">
-						</div>
-					</div> <!-- /row -->
-
-					<div class="row form-full-row">
-						<div class="form-field col-lg-4 no-padding-left">
-							<input type="text" name="genus" placeholder="genus">
-						</div>
-
-						<div class="form-field col-lg-4">
-							<input type="text" name="specificEpithet" placeholder="specificEpithet">
-						</div>
-
-						<div class="form-field col-lg-4">
-							<input type="text" name="infraspecificEpithet" placeholder="infraspecificEpithet">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="Family" value="<%= Family; %>" placeholder="Family">
 						</div>
 					</div> <!-- /row -->
 
 					<div class="row form-full-row">
-						<div class="form-field col-lg-4 no-padding-left">
-							<input type="text" name="Sex" placeholder="Sex">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="genus" value="<%= genus; %>" placeholder="genus">
 						</div>
 
-						<div class="form-field col-lg-4">
-							<input type="text" name="lifeStage" placeholder="lifeStage">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="specificEpithet" value="<%= specificEpithet; %>" placeholder="specificEpithet">
 						</div>
 
-						<div class="form-field col-lg-4">
-							<input type="text" name="Country" placeholder="Country">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="infraspecificEpithet" value="<%= infraspecificEpithet; %>" placeholder="infraspecificEpithet">
 						</div>
 					</div> <!-- /row -->
 
 					<div class="row form-full-row">
-						<div class="form-field col-lg-4 no-padding-left">
-							<input type="text" name="Patch" placeholder="Patch">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="Sex" value="<%= Sex; %>" placeholder="Sex">
+						</div>
+
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="lifeStage" value="<%= lifeStage; %>" placeholder="lifeStage">
+						</div>
+
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="Country" value="<%= Country; %>" placeholder="Country">
+						</div>
+					</div> <!-- /row -->
+
+					<div class="row form-full-row">
+						<div class="form-field col-lg-4 col-md-4 col-sm-4">
+							<input type="text" name="Patch" value="<%= Patch; %>" placeholder="Patch">
 						</div>
 					</div> <!-- /row -->
 
 					<div class="row form-full-row">
 						<button type="submit" id="submit-form" name="submit" class="btn btn-primary submit">Search</button>
 					</div>
-				</div> <!-- /basic-information -->
-
+				</div>
 			</form>
 
 			<% 
 		        if(typeof arr!="undefined")
 		        {
+
 		    %>
 				<div class="table" style="padding-bottom: 20px">
-					<h3 style="text-align: center">Results</h3>
-					<table class="table table-striped custab" >
-					    <thead style="background-color: #a5a5a5">
+					<form id="download-form" class="basic-form col-lg-12" method="post" action="/download" enctype="multipart/form-data" style="text-align: center">
+						<textarea name="arr" hidden="hidden"> <%= JSON.stringify(arr) %> </textarea>
+						<input type="text" hidden='hidden' name="subIds" value="<%= JSON.stringify(subIds) %>">
+						<h3 style="text-align: center">Search Results <br><br> <button class="btn btn-primary">Download Data</button></h3>
+						
+					</form>
+					<table class="table table-striped table-bordered custab">
+					    <thead>
 					        <tr>
 					            <th>FileName</th>
 					            <th>genus</th>
@@ -158,7 +226,9 @@
 			<%
 				}
 			%>
+			
+		</div> <!-- /search-data -->
+	</div> <!-- /page-wrapper -->
 
-	<script src="/js/script.js"></script>
 </body>
 </html>

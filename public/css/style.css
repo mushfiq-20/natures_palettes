@@ -1,297 +1,190 @@
 
-*
+
+/*********************************************************************************************************************************/
+/********************************************************* SHARED CSS ************************************************************/
+/*********************************************************************************************************************************/
+* { font-family: 'Open Sans',sans-serif; }
+h1,h2,h3,h4,h5,h6 { color: #337aba; }
+.no-padding { padding: 0; }
+.no-padding-top { padding-top: 0; }
+.no-padding-bottom { padding-bottom: 0; }
+.no-padding-left { padding-left: 0; }
+.no-padding-right { padding-right: 0; }
+#page-wrapper { min-height: 100vh; overflow: hidden; }
+#navigation-bar { height: 80px; background: rgba(0,0,0,.8); padding: 0px 5%; position: absolute; left: 0; top: 0; z-index: 3; }
+#logo { height: 100%; }
+#logo h1 { height: 100%; line-height: 80px; font-size: 35px; margin: 0; }
+#logo h1 a { font-family: 'Dancing Script', cursive; color: #fff; }
+#logo h1 a:hover { text-decoration: none; }
+#navigation-menu { height: 100%; }
+#navigation-menu ul { padding-left: 0; float: right; }
+#navigation-menu ul li { margin-right: 35px; display: inline; line-height: 80px; }
+#navigation-menu ul li a { color: #fff; font-size: 17px; }
+#messages { margin-top: 50px !important; }
+#messages ul { list-style: none; }
+#validate-data { text-align: center; }
+#validate-data h1 { font-size: 25px; margin: 0; text-align: center; color: #333; }
+.success-info { background-color: #dff0d8; border-color: #d6e9c6; box-sizing: border-box; padding: 50px 30px !important; }
+.success-info li, .success-info p, .success-info h3 { color: #3c763d !important; font-size: 20px; margin-bottom: 9px; }
+.success-info:before { content: "\2713"; font-size: 50px; color: #3c763d; border: 1px solid #3c763d; border-radius: 100px; padding: 20px 30px; display: inline-block; margin-bottom: 39px; }
+.info { background-color: #f2dede; border-color: #ebccd1; box-sizing: border-box; padding: 30px !important; }
+.info p,.info li { color: #a94442 !important; font-size: 17px; margin-bottom: 9px; line-height: 24px; }
+.list li { width: 100%; text-align: center !important; color: #a94442 !important; font-size: 17px; list-style-position: inside !important; }
+
+@media only screen and (max-width: 1023px)
 {
-	font-family: 'Open Sans',sans-serif;
+	#logo { width: 200px; }
+	#logo h1 { font-size: 30px;}
+	#navigation-menu { width: calc(100% - 250px); }
+	#navigation-menu ul { background: rgba(0,0,0,.9); position: fixed; left: 0; top: 0; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; display: none; }
+	#navigation-menu ul li { display: block; line-height: normal; }
+	#navigation-menu ul li a { display: inline-block; color: #fff; font-size: 25px; margin-bottom: 20px; }
+	#navigation-menu .mobile-menu { color: #fff; font-size: 16px; position: absolute; right: 0; top: 24px; cursor: pointer; border: 1px solid #fff; box-sizing: border-box; padding: 5px 15px; }
+	.hide-menu { color: #fff; position: absolute; right: 10%; font-size: 35px; top: 15px; cursor: pointer; }
 }
 
-.no-padding
+
+
+
+
+
+
+
+/*********************************************************************************************************************************/
+/********************************************************** HOME CSS *************************************************************/
+/*********************************************************************************************************************************/
+#home-banner { height: 100vh; }
+#home-slider, #small-screen-home-banner { height: 100vh; position: absolute; left: 0; top: 0; z-index: -1; }
+#home-slider img, #small-screen-home-banner img { width: 100%; height: 100%; object-fit: cover; }
+#home-banner-overlay { height: 100vh; position: relative; z-index: 1; background: rgba(0,0,0,.3); display: flex; flex-direction: column; justify-content: center; }
+#home-banner-overlay #banner-text { display: flex; flex-direction: column; text-align: center; color: #fff; text-shadow: 1px 2px 3px rgba(0,0,0,.7); }
+#home-banner-overlay #banner-text h1 { font-size: 30px; margin-bottom: 30px; color: #fff; }
+#home-banner-overlay #banner-text p { font-size: 20px; line-height: 33px; padding: 0px 20%; }
+#home-banner-overlay #banner-buttons { text-align: center; margin-top: 20px; }
+#home-banner-overlay #banner-buttons a.btn { margin-right: 10px; font-size: 18px; background: rgba(0,0,0,.6); border: 2px solid rgba(240,240,240,.5); padding: 10px 25px; border-radius: 0; color: #fff; }
+
+@media only screen and (max-width: 768px)
 {
-	padding: 0;
+	#home-banner-overlay #banner-text h1 { font-size: 22px; line-height: 30px; }
+	#home-banner-overlay #banner-text p { font-size: 17px; line-height: 27px; padding: 0px 5%; }
+	#home-banner-overlay #banner-buttons a.btn { font-size: 15px; }
 }
 
 
-.no-padding-left
+
+
+
+
+
+/*********************************************************************************************************************************/
+/********************************************************** UPLOAD CSS ***********************************************************/
+/*********************************************************************************************************************************/
+#upload-data { box-sizing: border-box; padding: 0px 5%; margin-top: 130px; }
+#upload-data #terms,#upload-data #upload-steps { border: 1px solid #e3e3e3; box-sizing: border-box; padding: 30px; }
+#upload-data #terms h1 { font-size: 25px; margin-bottom: 25px; margin-top: 0; }
+#upload-data #terms p { font-size: 15px; margin-bottom: 15px; }
+#upload-data #terms .not-agreed { display: block; font-size: 15px; font-style: italic; margin-top: 5	px; margin-bottom: 20px; }
+#upload-data .topbar { background: #337ab7; padding: 25px 20px; color: #fff; border-radius: 5px; font-size: 25px; margin-bottom: 13px; margin-left: -3.5%; }
+#upload-data .steps { float: left; clear: both; margin-top: 10px; margin-bottom: 10px; }
+#upload-data .steps h4 { font-size: 14px; float: left; margin-right: 24px; }
+#upload-data .steps h4.selected { font-weight: bold; }
+#upload-data .steps h4 span { float: left; width: 20px; height: 20px; padding-left: 6px; line-height: 18px; font-size: 12px; border: 1px solid #ccc; background: #f7f7f7; border-radius: 100px; margin-top: -2px; margin-right: 10px; }
+#upload-data .steps h4.selected span { color: #fff; background: #337ab7; border: 1px solid #337ab7; }
+#upload-form { clear: both; }
+#upload-form h3.label { font-weight: 600; font-size: 13px; margin-bottom: 10px; margin-top: 8px; color: #000; text-align: left; }
+.submission-instructions { margin-left: -1%; }
+.form-full-row { margin-bottom: 20px; }
+span.required { color: red; }
+.form-field input[type="text"], .form-field input[type="password"], .form-field input[type="email"], .form-field input[type="date"], .form-field select { width: 100%; height: 35px; font-size: 13px; border: 1px solid #ccc; border-radius: 5px; padding: 0px 10px; }
+.form-field input[type="file"] { width: 400px; margin-top: 10px; }
+.form-field .sub-fields-container { width: 100%; margin-top: 10px; }
+.form-field .sub-fields { width: 46% !important; }
+.form-field .sub-fields:nth-child(odd) { margin-right: 3%; }
+.foot-note { float: left; width: 100%; font-size: 13px; font-style: italic; margin-top: 8px; }
+.upload-note { display: block; font-size: 13px; font-style: italic; margin-top: 10px; }
+.upload-files { margin-left: -16px; }
+.upload-files .form-field { background: #f5f5f5; box-sizing: border-box; padding: 15px; margin-bottom: 20px; }
+.buttons-container { margin-left: -15px; }
+#upload-data #sample-files { padding-left: 5%; }
+#upload-data #sample-files p { font-size: 16px; margin-top: 10px; margin-bottom: 10px; }
+#upload-data #sample-files ul { padding-left: 5%; }
+#upload-data #sample-files ul li { font-size: 15px; margin-bottom: 5px; }
+
+@media only screen and (max-width: 1024px)
 {
-	padding-left: 0;
+	#upload-data { padding: 0px 2%; margin-top: 100px; }
+	#upload-data #terms, #upload-data #upload-steps { padding: 10px; }
+	#upload-data #sample-files { margin-top: 20px; margin-bottom: 20px; }
+	#upload-data .basic-information .form-field { float: left; width: 100%; padding: 0; margin-top: 10px; }
+	#upload-data .basic-information .form-full-row { margin-bottom: 0; }
+	#upload-form h3.label { margin-top: 12px; margin-bottom: 10px; }
+	#upload-form .foot-note { margin-bottom: 8px; }
+	#upload-form .embargo-status { margin-bottom: 10px; }
 }
 
-
-.no-padding-right
+@media only screen and (min-width: 1024px) and (max-width: 1199px)
 {
-	padding-right: 0;
+	#upload-form .embargo-status { margin-bottom: 10px; margin-top: 15px; padding-left: 0; }
 }
 
 
-.hidden
+
+
+
+
+
+
+
+/*********************************************************************************************************************************/
+/********************************************************* SEARCH CSS ************************************************************/
+/*********************************************************************************************************************************/
+#search-data { box-sizing: border-box; padding: 0px 6%; margin-top: 130px; }
+#search-data .search-information h1 { font-size: 25px; margin-top: 0px; margin-bottom: 20px; }
+#search-data .search-information .tips { margin-bottom: 20px; font-size: 14px; }
+#search-data #search-form { box-sizing: border-box; padding: 30px 40px; border: 1px solid #ccc; }
+#search-data #search-form #submit-form { margin-left: 15px; }
+
+@media only screen and (max-width: 767px)
 {
-	display: none;
+	#search-data { padding: 0px 2%; margin-top: 110px; }
+	#search-data #search-form { padding: 15px; }
+	#search-data .form-full-row { margin-bottom: 0; }
+	#search-data .form-field input { margin-bottom: 10px; }
+	#search-data #submit-form { margin-top: 20px; }
 }
 
-
-.full-container
+@media only screen and (min-width: 768px) and (max-width: 991px)
 {
-	width: 1024px;
-	min-height: 100vh;
-	margin: auto;
-	box-sizing: border-box;
-	padding: 0px 2%;
-	box-shadow: 1px 1px 10px 5px rgba(0,0,0,.2);
+	#search-data { padding: 0px 4%; margin-top: 110px; }
 }
 
-
-.topbar nav 
-{ 
-	position: absolute; 
-	right: 0; 
-	top: 0; 
-	width: 400px; 
-	padding-top: 23px; 
-	padding-bottom: 10px; 
-}
-
-
-.topbar nav ul 
-{ 
-	float:right; 
-	margin-right: 35px; 
-	list-style: none; 
-	padding-left: 0; 
-}
-
-
-.topbar nav ul li 
-{ 
-	display: inline; 
-}
-
-
-.topbar nav ul li a 
-{ 
-	font-size: 17px; 
-	margin-left: 25px; 
-	color: #fff; 
-}
-
-
-.upload-container .topbar
+@media only screen and (min-width: 992px) and (max-width: 1199px)
 {
-	width: 107% !important;
-	max-width: 110%;
-	background: #337ab7;
-	padding: 25px 20px;
-	color: #fff;
-	border-radius: 5px;
-	font-size: 25px;
-	margin-bottom: 13px;
-	margin-left: -3.5%;
+	#search-data #search-form { margin-bottom: 30px; }
 }
 
 
-.not-agreed 
+
+
+
+
+
+
+
+/*********************************************************************************************************************************/
+/********************************************************* MODIFY CSS ************************************************************/
+/*********************************************************************************************************************************/
+#modify-data h1 { font-size: 25px; margin-top: 0px; margin-bottom: 20px; }
+#modify-data #modification-instruction { margin-left: -15px; margin-bottom: 15px; }
+#modify-data .modification-action { margin-top: 10px; }
+#modify-data #submission-info { box-sizing: border-box; padding-left: 2.5%; }
+#modify-data #submission-info p { font-size: 15px; margin-bottom: 15px; font-weight: bold; }
+#modify-data #submission-info ul { box-sizing: border-box; padding: 20px 40px; border: 1px solid #ccc; float: left; display: block; clear: both; }
+#modify-data #submission-info ul li { font-size: 15px; margin-top: 5px; margin-bottom: 5px; }
+#modify-data .modification-action { margin-bottom: 10px; }
+#modify-data .modification-action label { margin-left: 5px; margin-right: 15px; }
+
+@media only screen and (max-width: 767px)
 {
-    display: block;
-    color: red;
-    font-size: 13px;
-    font-style: italic;
-}
-
-
-.upload-container .steps
-{
-	float: left;
-	clear: both;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-
-.upload-container .steps h4 
-{
-	font-size: 14px;
-	float: left;
-	margin-right: 24px;
-}
-
-
-.upload-container .steps h4.selected
-{
-	font-weight: bold;
-}
-
-
-.upload-container .steps h4 span
-{
-	float: left;
-	width: 20px;
-	height: 20px;
-	padding-left: 5px;
-	line-height: 18px;
-	font-size: 12px;
-	border: 1px solid #ccc;
-	background: #f7f7f7;
-	border-radius: 100px;
-	margin-top: -2px;
-	margin-right: 10px;
-}
-
-
-.upload-container .steps h4.selected span
-{
-	color: #fff;
-	background: #337ab7;
-	border: 1px solid #337ab7;
-}
-
-
-#upload-form
-{
-	clear: both;
-}
-
-
-#upload-form h3.label
-{
-	font-weight: 600;
-	font-size: 13px;
-	margin-bottom: 4px;
-	margin-top: 8px;
-}
-
-
-.submission-instructions
-{
-	margin-left: -1%;
-}
-
-
-.form-full-row
-{
-	margin-bottom: 20px;
-}
-
-
-span.required
-{
-	color: red;
-}
-
-
-.form-field input[type="text"],
-.form-field input[type="email"],
-.form-field input[type="date"],
-.form-field select
-{
-	width: 100%;
-	height: 35px;
-	font-size: 13px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	padding: 0px 10px;
-}
-
-
-.form-field input[type="file"]
-{
-	width: 400px;
-	margin-top: 10px;
-}
-
-
-.form-field .sub-fields-container
-{
-	width: 100%;
-	margin-top: 10px;
-}
-
-
-.form-field .sub-fields
-{
-	width: 46% !important;
-}
-
-
-.form-field .sub-fields:nth-child(odd)
-{
-	margin-right: 3%;
-}
-
-
-.foot-note
-{
-	float: left;
-	width: 100%;
-	font-size: 13px;
-	font-style: italic;
-	margin-top: 8px;
-}
-
-
-.upload-note
-{
-	display: block;
-	font-size: 13px;
-	font-style: italic;
-	margin-top: 10px;
-}
-
-
-.upload-files
-{
-	margin-left: -16px;
-}
-
-
-.upload-files .form-field
-{
-	background: #f5f5f5;
-	box-sizing: border-box;
-	padding: 15px;
-	margin-bottom: 20px;
-}
-
-
-.btn-primary
-{
-	background: #337ab7;
-}
-
-
-.buttons-container
-{
-	margin-left: -15px;
-}
-
-
-.sample-files
-{
-	float: left;
-	margin-top: 15px;
-}
-
-
-.sample-files h3
-{
-	font-size: 22px;
-	margin-bottom: 15px;
-}
-
-
-.sample-files .file-type
-{
-	float: left;
-	width: 100%;
-	margin-top: 10px;
-}
-
-
-.sample-files .file-type h3
-{
-	float: left;
-	font-size: 19px;
-}
-
-
-.sample-files .files
-{
-	float: right;
+	#modify-data #submission-info { padding-left: 0; margin-top: 30px; }
 }

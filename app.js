@@ -9,11 +9,8 @@ var app = express();
 var index = require('./controllers/index');
 var upload = require('./controllers/upload');
 var search = require('./controllers/search');
-// var login = require('./controllers/login');
-// var register = require('./controllers/register');
-// var userhome = require('./controllers/users/home');
-// var adminhome = require('./controllers/admin/home');
-// var logout = require('./controllers/logout');
+var download = require('./controllers/download');
+var modify = require('./controllers/modify');
 
 // CONFIGURATION
 app.set('view engine', 'ejs');
@@ -30,7 +27,6 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(function(req, res, next) {
-  //res.locals.cart = req.session.cart;
   res.locals.loggedUser = req.session.loggedUser;
   res.locals.lastLog = req.session.lastLog;
   res.locals.msg = req.session.msg;
@@ -43,11 +39,8 @@ app.use(fileUpload());
 app.use('/', index);
 app.use('/upload', upload);
 app.use('/search', search);
-// app.use('/login', login);
-// app.use('/register', register);
-// app.use('/users/home', userhome);
-// app.use('/admin/home', adminhome);
-// app.use('/logout', logout);
+app.use('/download', download);
+app.use('/modify', modify);
 
 // SERVER
 app.listen(3336,function(){

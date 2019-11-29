@@ -1,27 +1,17 @@
 var mysql = require('mysql');
 
-// var connection = mysql.createConnection({
-//   host: 'remotemysql.com',
-//   user: 'p5IjIhnhwq',
-//   password: 'rZWMwhVbjD',
-//   database: 'p5IjIhnhwq'
-// });
+var connection;
 
-// connection.connect(function(err) {
-//   if (err) {
-//     console.error('error connecting: ' + err.stack);
-//     return;
-//   }
-// });
-// 
-var connection = mysql.createConnection({
+function handleDisconnect() {
+
+	connection = mysql.createConnection({
 	  host: 'remotemysql.com',
 	  user: 'p5IjIhnhwq',
 	  password: 'rZWMwhVbjD',
 	  database: 'p5IjIhnhwq'
 	});
 
-function handleDisconnect() {
+
 	connection.connect(function(err) {
 	  if (err) {
         connection.end();
@@ -32,11 +22,12 @@ function handleDisconnect() {
 	});
 
    connection.on('error', function(err) {
-    console.log('db error', err);
+    //console.log('db error', err);
+    //handleDisconnect();   
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
       handleDisconnect();                         // lost due to either server restart, or a
     } else {                                      // connnection idle timeout (the wait_timeout
-      throw err;                                  // server variable configures this)
+      console.log(err);                           // server variable configures this)
     }
   });
 }
